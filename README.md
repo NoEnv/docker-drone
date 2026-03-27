@@ -17,7 +17,7 @@ most simple way of running the container
 
 advanced usage
 
-    docker run --name drone -p 8080:8080 noenv/drone
+    docker run --name drone -p 80:80 -p 443:443 --env-file ./drone.env noenv/drone
 
 #### Source
 
