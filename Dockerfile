@@ -1,8 +1,12 @@
 FROM golang:1.26-alpine3.23 as build
 
 WORKDIR /go/src/github.com/harness/harness
+
+COPY patches /patches
+
 RUN apk add --no-cache --purge --clean-protected -u git ca-certificates tzdata \
   && git clone --branch v2.28.2 https://github.com/harness/harness.git . \
+  && git apply /patches/* \
   && CGO_ENABLED=0 go build -v -a -tags "nolimit" -ldflags "-extldflags \"-static\"" -o release/linux/drone-server /go/src/github.com/harness/harness/cmd/drone-server
 
 FROM alpine:3.23
